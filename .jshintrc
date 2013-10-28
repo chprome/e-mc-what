@@ -1,0 +1,21 @@
+{
+  "browser": true,
+  "esnext": true,
+  "globals": {},
+  "globalstrict": true,
+  "quotmark": true,
+  "smarttabs": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true,
+  "devel": true,
+  "strict": false,
+  "globals": {
+    "module": true,
+    "__dirname": true,
+    "process": true,
+    "require": true,
+    "it": true,
+    "describe": true
+  }
+}
