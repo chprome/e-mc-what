@@ -1,1 +1,36 @@
-blah
+<div class="page-header">
+    <div class="col-md-offset-1">
+        <h1>Surface d'un rectangle</h1>
+    </div>
+</div>
+
+<div class="col-lg-2">
+    {{> pub_left}}
+</div>
+
+
+<div class="col-md-offset-1 col-lg-6 jumbotron">
+    <div>
+        \[Surface = Longueur \times Hauteur\]
+    </div>
+    <div>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputEmail2">Longueur</label>
+                <input type="text" class="form-control input-sm" id="longueur" placeholder="Longueur">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputEmail2">Hauteur</label>
+                <input type="text" class="form-control input-sm" id="hauteur" placeholder="Hauteur">
+            </div>
+            <button type="submit" id="compute" class="btn btn-primary btn-sm">Calculer</button>
+        </form>
+    </div>
+    <div>
+        \[Surface =  0\]
+    </div>
+</div>
+
+<div class="col-lg-3">
+    {{> menu_right}}
+</div>
