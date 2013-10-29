@@ -4,48 +4,99 @@
     </div>
 </div>
 
-<div class="col-lg-2">
+<div class="col-lg-1">
     {{> pub_left}}
 </div>
 
 
-<div class="col-md-offset-1 col-lg-6 jumbotron">
+<div class="col-md-offset-1 col-lg-6">
     <div>
         \[Surface = Longueur \times Hauteur\]
     </div>
-    <div>
-        <form role="form">
+    <div class="text-center">
+        <form role="form" class="form-inline">
             <div class="form-group">
-                <label for="longueur">Longueur</label>
+                {{! <label for="longueur">Longueur</label> }}
                 <input type="text" class="form-control input-sm" id="longueur" placeholder="Longueur">
             </div>
+            x
             <div class="form-group">
-                <label for="hauteur">Hauteur</label>
+                {{! <label for="hauteur">Hauteur</label> }}
                 <input type="text" class="form-control input-sm" id="hauteur" placeholder="Hauteur">
             </div>
             <div class="form-group">
-                <label>Résultat</label>
+                <label> = </label>
                 <span id="result"></span>
             </div>
         </form>
+        <canvas id="drawing"></canvas>
     </div>
 </div>
 
-<div class="col-lg-3">
+<div class="col-md-offset-1 col-lg-3">
     {{> menu_right}}
 </div>
 
 <script type="text/javascript">
-    document.getElementById('longueur').addEventListener('keyup', function() {
+
+    function updateCalcul() {
         var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
         var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
         var result = longueur * hauteur;
         document.getElementById('result').innerHTML = result;
-    });
-    document.getElementById('hauteur').addEventListener('keyup', function() {
-        var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
-        var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
-        var result = longueur * hauteur;
-        document.getElementById('result').innerHTML = result;
-    });
+    }
+
+    document.getElementById('longueur').addEventListener('keyup', updateCalcul);
+    document.getElementById('hauteur').addEventListener('keyup', updateCalcul);
+</script>
+
+<script type="text/paperscript" canvas="drawing">
+
+    var shallDraw = true;
+
+    function setShallDraw() {
+        shallDraw = true;
+    }
+
+    document.getElementById('longueur').addEventListener('keyup', setShallDraw);
+    document.getElementById('hauteur').addEventListener('keyup', setShallDraw);
+
+
+    function onFrame() {
+
+        if(shallDraw) {
+            shallDraw = false;
+            if(project.activeLayer.hasChildren()){
+                project.activeLayer.removeChildren();
+            }
+
+            var longueur = parseInt(document.getElementById('longueur').value,10) || 100;
+            var hauteur = parseInt(document.getElementById('hauteur').value,10) || 50;
+
+            if(longueur >= hauteur) {
+                var drawingWidth = 270;
+                var drawingHeight = 270/longueur*hauteur;    
+            } else {
+                var drawingHeight = 120;
+                var drawingWidth = 120/hauteur*longueur;    
+            }
+
+            console.log("drawingWidth",drawingWidth);
+            console.log("drawingHeight",drawingHeight);
+            
+
+            var rectangle = new Rectangle(new Point(30, 30), new Point(drawingWidth, drawingHeight));
+            var path = new Path.Rectangle(rectangle);
+            path.fillColor = '#e9e9ff';
+            path.selected = true;
+
+            var line = new Path();
+            line.moveTo(new Point(30, 15));
+            line.lineTo(new Point(drawingWidth,15));
+            line.lineTo(new Point(drawingWidth-10,10));
+            line.lineTo(new Point(drawingWidth,15));
+            line.lineTo(new Point(drawingWidth-10,20));
+            line.strokeColor = 'blue';
+        }
+    }
 </script>
