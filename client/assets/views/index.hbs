@@ -40,118 +40,109 @@
 
 <script type="text/javascript">
 
-    document.getElementById('result-wrapper').style.visibility = 'hidden';
+    window.onload = function() {
 
-    function updateCalcul(e) {
-        e.preventDefault();
-        var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
-        var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
-        var result = longueur * hauteur;
-        document.getElementById('result').innerHTML = result;
-        document.getElementById('result-wrapper').style.visibility = 'visible';
-        document.getElementById('button-wrapper').style.visibility = 'hidden';
-    }
-
-    function hideResult(e) {
-        document.getElementById('result').innerHTML = "";
         document.getElementById('result-wrapper').style.visibility = 'hidden';
-        document.getElementById('button-wrapper').style.visibility = 'visible';
-    }
 
-    document.querySelector('#compute').addEventListener('click', updateCalcul);
+        function hideResult(e) {
+            document.getElementById('result').innerHTML = "";
+            document.getElementById('result-wrapper').style.visibility = 'hidden';
+            document.getElementById('button-wrapper').style.visibility = 'visible';
+        }
 
-    var longueurInput = document.getElementById('longueur');
-    var hauteurInput = document.getElementById('hauteur');
-    longueurInput.addEventListener('keyup', hideResult);
-    hauteurInput.addEventListener('keyup', hideResult);
-    longueurInput.value = 200;
-    hauteurInput.value = 80;
-</script>
+        document.querySelector('#compute').addEventListener('click', onComputeClick);
 
-<script type="text/paperscript" canvas="drawing">
+        var longueurInput = document.getElementById('longueur');
+        var hauteurInput = document.getElementById('hauteur');
+        longueurInput.addEventListener('keyup', hideResult);
+        hauteurInput.addEventListener('keyup', hideResult);
+        longueurInput.value = 200;
+        hauteurInput.value = 80;
 
-    var shallDraw = true;
-    var rectangle;
+        var canvas = document.getElementById('drawing');
+        paper.setup(canvas);
 
-    var longueurInput = document.getElementById('longueur');
-    var hauteurInput = document.getElementById('hauteur');
+        var path = new paper.Path();
 
-    var currentDimensions = {
-        width: parseInt(longueurInput.value,10), 
-        height: parseInt(hauteurInput.value,10)
-    }
+        var shallDraw = true;
+        var rectangle;
 
-    var targetDimensions = {
-        width: currentDimensions.width,
-        height: currentDimensions.height
-    };
+        var longueurInput = document.getElementById('longueur');
+        var hauteurInput = document.getElementById('hauteur');
 
-    var steps = {
-        width: 0,
-        height: 0
-    };
+        var currentDimensions = {
+            width: parseInt(longueurInput.value,10), 
+            height: parseInt(hauteurInput.value,10)
+        }
 
-    function setScale() {
-        if(!shallDraw) {
-            targetDimensions = {
-                width: parseInt(longueurInput.value,10) || 1,
-                height: parseInt(hauteurInput.value,10) || 1
-            };
+        var targetDimensions = {
+            width: currentDimensions.width,
+            height: currentDimensions.height
+        };
 
-            if(currentDimensions.width !== targetDimensions.width 
-                        || currentDimensions.height !== targetDimensions.height) {
-                steps = {
-                    width: (targetDimensions.width - currentDimensions.width)/40,
-                    height: (targetDimensions.height - currentDimensions.height)/40
+        var steps = {
+            width: 0,
+            height: 0
+        };
+
+        function onComputeClick(e) {
+            e.preventDefault();
+            var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
+            var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
+            var result = longueur * hauteur;
+            document.getElementById('result').innerHTML = result;
+            document.getElementById('result-wrapper').style.visibility = 'visible';
+            document.getElementById('button-wrapper').style.visibility = 'hidden';
+
+            if(!shallDraw) {
+                targetDimensions = {
+                    width: parseInt(longueurInput.value,10) || 1,
+                    height: parseInt(hauteurInput.value,10) || 1
+                };
+
+                if(currentDimensions.width !== targetDimensions.width 
+                            || currentDimensions.height !== targetDimensions.height) {
+                    steps = {
+                        width: (targetDimensions.width - currentDimensions.width)/40,
+                        height: (targetDimensions.height - currentDimensions.height)/40
+                    }
+                    shallDraw = true;
                 }
-                shallDraw = true;
             }
         }
-    }
 
-    document.querySelector('#compute').addEventListener('click', setScale);
+        paper.view.onFrame = function(event) {
 
-    function onFrame() {
+            if(shallDraw) {
+                if(paper.project.activeLayer.hasChildren()){
+                    paper.project.activeLayer.removeChildren();
+                }
 
-        if(shallDraw) {
-            console.log("draw",currentDimensions);
+                currentDimensions.width += steps.width;
+                if(steps.width < 0) {
+                    currentDimensions.width = Math.max(targetDimensions.width, currentDimensions.width);
+                } else {
+                    currentDimensions.width = Math.min(targetDimensions.width, currentDimensions.width);
+                }
+                currentDimensions.height += steps.height;
+                if(steps.height < 0) {
+                    currentDimensions.height = Math.max(targetDimensions.height, currentDimensions.height);
+                } else {
+                    currentDimensions.height = Math.min(targetDimensions.height, currentDimensions.height);
+                }
 
-            if(project.activeLayer.hasChildren()){
-                project.activeLayer.removeChildren();
+                var aCircle = new paper.Path.Rectangle(
+                    30, 30, 
+                    currentDimensions.width+30, currentDimensions.height+30
+                ); 
+                aCircle.strokeColor = "black"; 
+                aCircle.fillColor = "#e9e9ff"; 
+                aCircle.name = "circle"; 
+                paper.view.draw(); 
+
+                shallDraw = currentDimensions.width !== targetDimensions.width 
+                            || currentDimensions.height !== targetDimensions.height;
             }
-
-            currentDimensions.width += steps.width;
-            if(steps.width < 0) {
-                currentDimensions.width = Math.max(targetDimensions.width, currentDimensions.width);
-            } else {
-                currentDimensions.width = Math.min(targetDimensions.width, currentDimensions.width);
-            }
-            currentDimensions.height += steps.height;
-            if(steps.height < 0) {
-                currentDimensions.height = Math.max(targetDimensions.height, currentDimensions.height);
-            } else {
-                currentDimensions.height = Math.min(targetDimensions.height, currentDimensions.height);
-            }
-
-            rectangle = new Rectangle(new Point(30, 30), new Point(currentDimensions.width+30, currentDimensions.height+30));
-            var path = new Path.Rectangle(rectangle);
-            path.fillColor = '#e9e9ff';
-            path.selected = true;
-
-            var line = new Path();
-            line.moveTo(new Point(30, 15));
-            line.lineTo(new Point(currentDimensions.width+30,15));
-            line.lineTo(new Point(currentDimensions.width+20,10));
-            line.lineTo(new Point(currentDimensions.width+30,15));
-            line.lineTo(new Point(currentDimensions.width+20,20));
-            line.strokeColor = 'blue';
-
-            console.log("current",currentDimensions);
-            console.log("target",targetDimensions);
-            console.log("steps",steps);
-
-            shallDraw = currentDimensions.width !== targetDimensions.width 
-                        || currentDimensions.height !== targetDimensions.height;
         }
     }
 </script>
