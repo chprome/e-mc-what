@@ -40,7 +40,12 @@
 
 <script type="text/javascript">
 
+
     window.onload = function() {
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }   
 
         document.getElementById('result-wrapper').style.visibility = 'hidden';
 
@@ -90,7 +95,7 @@
             var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
             var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
             var result = longueur * hauteur;
-            document.getElementById('result').innerHTML = result;
+            document.getElementById('result').innerHTML = numberWithCommas(result);
             document.getElementById('result-wrapper').style.visibility = 'visible';
             document.getElementById('button-wrapper').style.visibility = 'hidden';
 
