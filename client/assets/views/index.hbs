@@ -1,153 +1,21 @@
-<div class="page-header">
-    <div class="col-md-offset-1">
-        <h1>Calculer la Surface d'un rectangle</h1>
-    </div>
-</div>
-
-<div class="col-lg-1">
-    {{> pub_left}}
-</div>
-
-
 <div class="col-md-offset-1 col-lg-6">
-    <div>
-        \[\rm Surface = Longueur \times Hauteur\]
+    <div id="formula">
+        \[\rm surface = largeur \times hauteur\]
     </div>
     <div class="text-center">
         <form role="form" class="form-inline">
             <div class="form-group">
-                <input type="text" class="form-control input-sm" id="longueur" placeholder="Longueur">
+                <input type="text" class="form-control input-sm" id="width" placeholder="Largeur">
             </div>
             x
             <div class="form-group">
-                <input type="text" class="form-control input-sm" id="hauteur" placeholder="Hauteur">
+                <input type="text" class="form-control input-sm" id="height" placeholder="Hauteur">
             </div>
             <div class="form-group" id="result-wrapper">
                 <label> = </label>
                 <span id="result"></span>
             </div>
-            <div class="form-group" id="button-wrapper">
-                <button class="btn btn-info btn-sm" id="compute">Calculer</button>
-            </div>
         </form>
         <canvas id="drawing"></canvas>
     </div>
 </div>
-
-<div class="col-md-offset-1 col-lg-3">
-    {{> menu_right}}
-</div>
-
-<script type="text/javascript">
-
-
-    window.onload = function() {
-
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        }   
-
-        document.getElementById('result-wrapper').style.visibility = 'hidden';
-
-        function hideResult(e) {
-            document.getElementById('result').innerHTML = "";
-            document.getElementById('result-wrapper').style.visibility = 'hidden';
-            document.getElementById('button-wrapper').style.visibility = 'visible';
-        }
-
-        document.querySelector('#compute').addEventListener('click', onComputeClick);
-
-        var longueurInput = document.getElementById('longueur');
-        var hauteurInput = document.getElementById('hauteur');
-        longueurInput.addEventListener('keyup', hideResult);
-        hauteurInput.addEventListener('keyup', hideResult);
-        longueurInput.value = 200;
-        hauteurInput.value = 80;
-
-        var canvas = document.getElementById('drawing');
-        paper.setup(canvas);
-
-        var path = new paper.Path();
-
-        var shallDraw = true;
-        var rectangle;
-
-        var longueurInput = document.getElementById('longueur');
-        var hauteurInput = document.getElementById('hauteur');
-
-        var currentDimensions = {
-            width: parseInt(longueurInput.value,10), 
-            height: parseInt(hauteurInput.value,10)
-        }
-
-        var targetDimensions = {
-            width: currentDimensions.width,
-            height: currentDimensions.height
-        };
-
-        var steps = {
-            width: 0,
-            height: 0
-        };
-
-        function onComputeClick(e) {
-            e.preventDefault();
-            var longueur = parseInt(document.getElementById('longueur').value,10) || 0;
-            var hauteur = parseInt(document.getElementById('hauteur').value, 10) || 0;
-            var result = longueur * hauteur;
-            document.getElementById('result').innerHTML = numberWithCommas(result);
-            document.getElementById('result-wrapper').style.visibility = 'visible';
-            document.getElementById('button-wrapper').style.visibility = 'hidden';
-
-            if(!shallDraw) {
-                targetDimensions = {
-                    width: parseInt(longueurInput.value,10) || 1,
-                    height: parseInt(hauteurInput.value,10) || 1
-                };
-
-                if(currentDimensions.width !== targetDimensions.width 
-                            || currentDimensions.height !== targetDimensions.height) {
-                    steps = {
-                        width: (targetDimensions.width - currentDimensions.width)/40,
-                        height: (targetDimensions.height - currentDimensions.height)/40
-                    }
-                    shallDraw = true;
-                }
-            }
-        }
-
-        paper.view.onFrame = function(event) {
-
-            if(shallDraw) {
-                if(paper.project.activeLayer.hasChildren()){
-                    paper.project.activeLayer.removeChildren();
-                }
-
-                currentDimensions.width += steps.width;
-                if(steps.width < 0) {
-                    currentDimensions.width = Math.max(targetDimensions.width, currentDimensions.width);
-                } else {
-                    currentDimensions.width = Math.min(targetDimensions.width, currentDimensions.width);
-                }
-                currentDimensions.height += steps.height;
-                if(steps.height < 0) {
-                    currentDimensions.height = Math.max(targetDimensions.height, currentDimensions.height);
-                } else {
-                    currentDimensions.height = Math.min(targetDimensions.height, currentDimensions.height);
-                }
-
-                var aCircle = new paper.Path.Rectangle(
-                    30, 30, 
-                    currentDimensions.width+30, currentDimensions.height+30
-                ); 
-                aCircle.strokeColor = "black"; 
-                aCircle.fillColor = "#e9e9ff"; 
-                aCircle.name = "circle"; 
-                paper.view.draw(); 
-
-                shallDraw = currentDimensions.width !== targetDimensions.width 
-                            || currentDimensions.height !== targetDimensions.height;
-            }
-        }
-    }
-</script>

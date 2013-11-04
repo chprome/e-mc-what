@@ -5,6 +5,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-browserify');
 
     grunt.initConfig({
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
         },
 
         browserify: {
-            'client/public/javascripts/app.js': ['client/assets/javascripts/*.js']
+            'client/public/javascripts/app.js': ['client/assets/javascripts/app/*.js']
         },
 
         clean: ['client/public/stylesheets/main.css'],
@@ -45,13 +46,26 @@ module.exports = function (grunt) {
             options: {
                 spawn: false,
             },
+        },
+
+        concat: {
+            options: {
+                separator: ';',
+            },
+            jslibs: {
+                src: ['client/libs/javascripts/**/*.js'],
+                dest: 'client/public/javascripts/libs.js',
+            },
+            csslibs: {
+                src: ['client/libs/stylesheets/**/*.css'],
+                dest: 'client/public/stylesheets/libs.css',
+            },
         }
 
     });
 
     grunt.registerTask('test', 'mochaTest');
-    grunt.registerTask('build', ['clean', 'jshint', 'stylus', 'browserify', 'watch']);
-    grunt.registerTask('dist', ['clean', 'jshint', 'stylus', 'test']);
+    grunt.registerTask('build', ['clean', 'jshint', 'stylus', 'browserify', 'concat:*', 'watch']);
 
     grunt.registerTask('default', ['build']);
 

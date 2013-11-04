@@ -1,10 +1,8 @@
 <html>
 	<head>
 		<title>{{{title}}}</title>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
-		<link href='http://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="/stylesheets/main.css"/>
+		<link rel="stylesheet" href="/stylesheets/libs.css"/>
+        <link rel="stylesheet" href="/stylesheets/main.css"/>
 	</head>
 	<body>
 
@@ -12,7 +10,22 @@
 
     	<div class="container">
       		<div class="row">
-       			{{{body}}}
+       			<div class="page-header">
+                    <div class="col-md-offset-1">
+                        <h1>Calculer la surface d'un rectangle</h1>
+                    </div>
+                </div>
+
+                <div class="col-lg-1">
+                    {{> pub_left}}
+                </div>
+
+                {{{body}}}
+
+                <div class="col-md-offset-1 col-lg-3">
+                    {{> menu_right}}
+                </div>
+
       		</div>
             {{> social}}
       		<hr>
@@ -20,15 +33,12 @@
     	{{> footer}}
 	</body>
 
-	<script type="text/javascript" src="/javascripts/app.js"></script>
-	<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-		  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-		});
-	</script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/holder/2.0/holder.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script src="///cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.9/paper.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="/javascripts/libs.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="/javascripts/app.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
 </html>
