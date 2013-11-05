@@ -19,14 +19,12 @@ MicroEE.mixin(Rectangle);
 // --- Public Methods
 
 Rectangle.prototype.setWidth = function(width) {
-    // TODO : valider le paramètre
-    this.width = parseFloat(width, 10);
+    this.width = this._parseFloat(width);
     this._computeSurface();
 };
 
 Rectangle.prototype.setHeight = function(height) {
-    // TODO : valider le paramètre
-    this.height = parseFloat(height, 10);
+    this.height = this._parseFloat(height);
     this._computeSurface();
 };
 
@@ -39,6 +37,16 @@ Rectangle.prototype.getSurface = function() {
 Rectangle.prototype._computeSurface = function() {
     this.surface = this.height * this.width;
     this.emit('change', this.surface);
+};
+
+Rectangle.prototype._parseFloat = function(stringValue) {
+
+    if(/^\d+(\.\d+)?$/.test(stringValue)) {
+        var floatValue = parseFloat(stringValue, 10);
+        return floatValue === 0.0 ? NaN : floatValue;
+    }
+ 
+    return NaN;
 };
 
 
@@ -167,7 +175,13 @@ RectangleSurfaceView.prototype.bindEvents = function bindEvents() {
 };
 
 RectangleSurfaceView.prototype.render = function() {
-    document.getElementById('result').innerHTML = Formatter.number(this.model.getSurface(), ' ');
+    var surface = this.model.getSurface();
+    if(isNaN(surface)) {
+        this.dom.result.innerHTML = 'Veuillez saisir un nombre positif';
+    }
+    else {
+        this.dom.result.innerHTML = Formatter.number(surface, ' ');
+    }
 };
 
 // --- Privates Methods

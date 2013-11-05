@@ -24,6 +24,11 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-browserify": "~1.2.4",
     "xhr": "~1.2.3",
-    "grunt-contrib-concat": "~0.3.0"
+    "grunt-contrib-concat": "~0.3.0",
+    "dalekjs": "0.0.8",
+    "grunt-dalek": "~0.2.0",
+    "dalek-browser-chrome": "0.0.7",
+    "dalek-browser-ios": "0.0.3",
+    "dalek-browser-firefox": "0.0.5"
   }
 }

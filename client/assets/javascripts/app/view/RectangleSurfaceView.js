@@ -22,7 +22,13 @@ RectangleSurfaceView.prototype.bindEvents = function bindEvents() {
 };
 
 RectangleSurfaceView.prototype.render = function() {
-    document.getElementById('result').innerHTML = Formatter.number(this.model.getSurface(), ' ');
+    var surface = this.model.getSurface();
+    if(isNaN(surface)) {
+        this.dom.result.innerHTML = 'Veuillez saisir un nombre positif';
+    }
+    else {
+        this.dom.result.innerHTML = Formatter.number(surface, ' ');
+    }
 };
 
 // --- Privates Methods

@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-    grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-dalek');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -10,12 +10,12 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
 
-        mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['server/test/**/*.js']
+        dalek: {
+            options: {
+                browser: ['chrome']
+            },
+            dist: {
+                src: ['client/test/**/*.js']
             }
         },
 
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.registerTask('test', 'mochaTest');
+    grunt.registerTask('test', 'dalek');
     grunt.registerTask('build', ['clean', 'jshint', 'stylus', 'browserify', 'concat:*', 'watch']);
 
     grunt.registerTask('default', ['build']);
