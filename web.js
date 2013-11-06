@@ -7,6 +7,7 @@ var app = express();
 var connect = require('connect');
 var hbs = require('hbs');
 var routes = require('./server/routes');
+var i18n = require('i18n');
 
 /** 
  * Configuration
@@ -39,7 +40,29 @@ app.use(express.bodyParser());
 app.use(connect.compress());
 app.use(express.methodOverride());
 app.use(app.router);
+app.use(i18n.init);
 app.use(express.static(__dirname + '/client/public', { maxAge: 10000 }));
+
+// --- i18n (TODO déplacer dans un autre fichier) --- //
+
+app.locals({
+  __i: i18n.__,
+  __n: i18n.__n
+});
+
+i18n.configure({
+  locales: ['en', 'fr'],
+  defaultLocale: 'fr',
+  cookie: 'locale',
+  directory: '' + __dirname + '/locales'
+});
+
+hbs.registerHelper('__', function () {
+  return i18n.__.apply(this, arguments);
+});
+hbs.registerHelper('__n', function () {
+  return i18n.__n.apply(this, arguments);
+});
 
 
 app.configure('development', function(){
