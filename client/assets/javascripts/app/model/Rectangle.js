@@ -25,6 +25,10 @@ Rectangle.prototype.getSurface = function() {
     return this.height * this.width;
 };
 
+Rectangle.prototype.isValid = function() {
+    return !isNaN(this.height) && !isNaN(this.width);
+};
+
 // --- Privates Methods
 
 Rectangle.prototype._computeSurface = function() {

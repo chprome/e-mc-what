@@ -32,6 +32,10 @@ Rectangle.prototype.getSurface = function() {
     return this.height * this.width;
 };
 
+Rectangle.prototype.isValid = function() {
+    return !isNaN(this.height) && !isNaN(this.width);
+};
+
 // --- Privates Methods
 
 Rectangle.prototype._computeSurface = function() {
@@ -78,8 +82,8 @@ function RectangleSurfaceCanvasView(model) {
     };
 
     this.currentDimensions = {
-        width: this.model.width,
-        height: this.model.height
+        width: 0,
+        height: 0
     };
 
     this.targetDimensions = this.currentDimensions;
@@ -117,15 +121,17 @@ RectangleSurfaceCanvasView.prototype._onFrame = function() {
 };
 
 RectangleSurfaceCanvasView.prototype._onModelChange = function() {
-    this.targetDimensions = {
-        width: this.model.width,
-        height: this.model.height
-    };
+    if(this.model.isValid()) {
+        this.targetDimensions = {
+            width: this.model.width,
+            height: this.model.height
+        };
 
-    this.steps = {
-        width: (this.targetDimensions.width - this.currentDimensions.width)/ANIMATE_STEP,
-        height: (this.targetDimensions.height - this.currentDimensions.height)/ANIMATE_STEP
-    };
+        this.steps = {
+            width: (this.targetDimensions.width - this.currentDimensions.width)/ANIMATE_STEP,
+            height: (this.targetDimensions.height - this.currentDimensions.height)/ANIMATE_STEP
+        };
+    }
 };
 
 RectangleSurfaceCanvasView.prototype._clearDrawing = function() {
