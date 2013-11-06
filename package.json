@@ -29,6 +29,7 @@
     "grunt-dalek": "~0.2.0",
     "dalek-browser-chrome": "0.0.7",
     "dalek-browser-ios": "0.0.3",
-    "dalek-browser-firefox": "0.0.5"
+    "dalek-browser-firefox": "0.0.5",
+    "grunt-wait": "~0.1.0"
   }
 }
