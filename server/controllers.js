@@ -1,13 +1,18 @@
-var menuBuilder = require('./utils/menuBuilder');
+var pages = require('./pages');
 
 module.exports = {
 
-	/*
-	 * Index
-	 */
-
 	indexPage : function index(req, res) {
-		menuBuilder(req.app, '/');
-		res.render('index');
-	}
+		res.render('index', {
+            pages: pages
+        });
+	},
+
+    calcul : function calcul(req, res) {
+        res.render('calculs/'+req.params.pageName, {
+            pageName: req.params.pageName,
+            layout: 'layouts/calcul'
+
+        });
+    }
 };

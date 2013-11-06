@@ -1,44 +1,29 @@
 <html>
-	<head>
-		<title>{{{title}}}</title>
-		<link rel="stylesheet" href="/stylesheets/libs.css"/>
+    <head>
+        <title>{{{title}}}</title>
+        <link rel="stylesheet" href="/stylesheets/libs.css"/>
         <link rel="stylesheet" href="/stylesheets/main.css"/>
-	</head>
-	<body>
+    </head>
+    <body>
 
-		{{> menu}}
+        {{> menu}}
 
-    	<div class="container">
-      		<div class="row">
-       			<div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="page-header">
                     <div class="col-md-offset-1">
-                        <h1>Calculer la surface d'un rectangle</h1>
+                        <h1>Accueil</h1>
                     </div>
                 </div>
 
-                <div class="col-lg-1">
-                    {{> pub_left}}
-                </div>
-
+                
                 {{{body}}}
 
-                <div class="col-md-offset-1 col-lg-3">
-                    {{> menu_right}}
-                </div>
-
-      		</div>
-            {{> social}}
-      		<hr>
-    	</div> <!-- /container -->
-    	{{> footer}}
-	</body>
+            </div>
+            <hr>
+        </div> <!-- /container -->
+        {{> footer}}
+    </body>
 
     <script src="/javascripts/libs.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/javascript" src="/javascripts/app.js"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-        });
-    </script>
 </html>

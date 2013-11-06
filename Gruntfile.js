@@ -35,7 +35,7 @@ module.exports = function (grunt) {
         },
 
         browserify: {
-            'client/public/javascripts/app.js': ['client/assets/javascripts/app/*.js']
+            'client/public/javascripts/rectangleSurface.js': ['client/assets/javascripts/app/main/rectangleSurface.js']
         },
 
         clean: ['client/public/stylesheets/main.css'],
