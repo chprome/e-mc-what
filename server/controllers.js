@@ -1,12 +1,15 @@
 var pages = require('./pages');
+var swig  = require('swig');
+var tplRoot = __dirname + '/../client/assets/views/';
 
 module.exports = {
 
 	indexPage : function index(req, res) {
-		res.render('index', {
-            pages: pages,
-            layout: 'layouts/main'
+        var template = swig.compileFile( tplRoot + 'index.swig');
+        var output = template({
+            pages: pages
         });
+        res.send(output);
     },
 
     calcul : function calcul(req, res) {
@@ -15,15 +18,18 @@ module.exports = {
             return element.name === req.params.pageName;
         });
 
-        if(matchingPages.lentgh === 0) {
-            res.send('Not found', 404);
+        // TODO extraire la 404
+        if(matchingPages[0] === undefined) {
+            res.send('Page not found', 404);
         } else {
             var page = matchingPages[0];
-            res.render('calculs/'+req.params.pageName, {
+            var template = swig.compileFile( tplRoot + 'calculs/'+page.name+'.swig');
+            var output = template({
                 pageName: page.name,
                 title: page.title,
                 layout: 'layouts/calcul'
             });
+            res.send(output);
         }
 
     }

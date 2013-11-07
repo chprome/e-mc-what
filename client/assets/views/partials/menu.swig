@@ -27,7 +27,7 @@
              </ul>
             <form class="navbar-form navbar-right">
                 <div class="form-group">
-                    <input type="search" placeholder="{{{__ "menu.search.placeholder"}}}" class="form-control">
+                    {# <input type="search" placeholder="{{{__ "menu.search.placeholder"}}}" class="form-control"> #}
                 </div>
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </form>

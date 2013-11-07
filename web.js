@@ -5,7 +5,6 @@
 var express = require('express');
 var app = express();
 var connect = require('connect');
-var hbs = require('hbs');
 var routes = require('./server/routes');
 var i18n = require('i18n');
 
@@ -13,26 +12,6 @@ var i18n = require('i18n');
  * Configuration
  */
 
-hbs.registerPartials(__dirname + '/client/assets/views/partials');
-
-var blocks = {};
-
-hbs.registerHelper('extend', function(name, context) {
-    var block = blocks[name];
-    if (!block) {
-        block = blocks[name] = [];
-    }
-
-    block.push(context.fn(this)); // for older versions of handlebars, use block.push(context(this));
-});
-
-hbs.registerHelper('block', function(name) {
-    var val = (blocks[name] || []).join('\n');
-
-    // clear the block
-    blocks[name] = [];
-    return val;
-});
 
 app.set('views', __dirname + '/client/assets/views');
 app.set('view engine', 'hbs');
@@ -57,13 +36,7 @@ i18n.configure({
   directory: '' + __dirname + '/locales'
 });
 
-hbs.registerHelper('__', function () {
-  return i18n.__.apply(this, arguments);
-});
-hbs.registerHelper('__n', function () {
-  return i18n.__n.apply(this, arguments);
-});
-
+// --- /i18n --- //
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
