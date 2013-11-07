@@ -10,9 +10,21 @@ module.exports = {
     },
 
     calcul : function calcul(req, res) {
-        res.render('calculs/'+req.params.pageName, {
-            pageName: req.params.pageName,
-            layout: 'layouts/calcul'
+
+        var matchingPages = pages.filter(function (element) {
+            return element.name === req.params.pageName;
         });
+
+        if(matchingPages.lentgh === 0) {
+            res.send('Not found', 404);
+        } else {
+            var page = matchingPages[0];
+            res.render('calculs/'+req.params.pageName, {
+                pageName: page.name,
+                title: page.title,
+                layout: 'layouts/calcul'
+            });
+        }
+
     }
 };

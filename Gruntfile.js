@@ -39,7 +39,10 @@ module.exports = function (grunt) {
             'client/public/javascripts/rectangleSurface.js': 'client/assets/javascripts/app/main/rectangleSurface.js'
         },
 
-        clean: ['client/public/stylesheets/main.css'],
+        clean: [
+            'client/public/stylesheets/*',
+            'client/public/javascripts/*'
+        ],
 
         watch: {
             build: {
