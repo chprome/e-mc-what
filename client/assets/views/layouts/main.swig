@@ -11,7 +11,7 @@
         <div class="container">
             <div class="page-header">
                 <div class="col-md-offset-1">
-                    <h1>{{ title }}</h1>
+                    <h1>Salut {{ title }}</h1>
                 </div>
             </div>
             {% block content %}{% endblock %}

@@ -12,12 +12,33 @@ class RectangleSurface extends Simulation {
             .baseURL("http://localhost:5000")
 
     val scn = scenario("Rectangle surface")
-        .during(6 minutes) {
+        .during(20 minutes) {
             exec(http("get page")
                 .get("/calcul/rectangleSurface")
+            )
+            .exec(http("get lib css")
+                .get("/stylesheets/libs.css")
+            )
+            .exec(http("get main css")
+                .get("/stylesheets/main.css")
+            )
+            .exec(http("twitter")
+                .get("/img/SocialMediaBookmarkIcon/16/twitter.png")
+            )
+            .exec(http("facebook")
+                .get("/img/SocialMediaBookmarkIcon/16/facebook.png")
+            )
+            .exec(http("google")
+                .get("/img/SocialMediaBookmarkIcon/16/google.png")
+            )
+            .exec(http("js libs")
+                .get("/javascripts/libs.js")
+            )
+            .exec(http("js rect")
+                .get("/javascripts/rectangleSurface.js")
             )
             .pause(1 second)
         }
 
-    setUp(scn.users(1000).ramp(5 minute).protocolConfig(httpConf))
+    setUp(scn.users(100).ramp(19 minute).protocolConfig(httpConf))
 }
